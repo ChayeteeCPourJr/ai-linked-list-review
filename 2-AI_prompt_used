@@ -1,0 +1,82 @@
+# AI Review Prompt — add_node_end
+
+## Prompt Model Used: GOOD PROMPT Framework
+
+---
+
+## Full Prompt Text
+
+**Role:**
+Act as a senior C developer with 15+ years of professional experience in systems
+programming, memory management, and secure C coding practices.
+
+**Task:**
+Conduct a comprehensive code review of the C function below. Your review must cover
+all five areas listed, with specific line-level feedback and a complete corrected
+version at the end.
+
+**Review Areas:**
+1. Correctness / Logical Errors
+   — Does the function correctly add a node to the end of a non-empty list?
+     Trace the pointer operations step by step and identify any logical mistakes.
+
+2. Memory Safety / Error Handling
+   — Are there any missing NULL checks (e.g., after malloc)?
+   — Is there any scenario where allocated memory is never freed, causing a memory leak?
+
+3. Maintainability
+   — Is the code readable and well-structured?
+   — Would a new developer be able to follow the logic clearly?
+
+4. Efficiency
+   — Are resources and pointer operations used effectively?
+   — Is there any redundant work?
+
+5. Error Handling
+   — How does the function behave under failure conditions (e.g., heap exhaustion)?
+   — What is the impact on the caller?
+
+**Context:**
+- Data structure used:
+  typedef struct list_s {
+      int n;
+      struct list_s *next;
+  } list_t;
+
+- Project constraints: Only malloc, free, and exit may be used.
+  No global variables are permitted.
+
+**Code to Review:**
+  list_t *add_node_end(list_t *head, const int n) {
+      list_t *new_node = malloc(sizeof(list_t));
+      list_t *current = head;
+      if (!head)
+          return (new_node);
+      while (current)
+          current = current->next;
+      current = new_node;
+      new_node->n = n;
+      new_node->next = NULL;
+      return (head);
+  }
+
+**Output Format:**
+1. Flaw Summary Table
+   — Table with: flaw description, category, affected lines, severity
+2. Detailed Explanations
+   — For each flaw: what it is, why it is a bug, runtime consequence
+3. Complete Corrected Function
+   — Fully fixed code with inline comments explaining every change
+
+---
+
+## Why This Follows the GOOD PROMPT Model
+
+| Element      | Implementation                                              |
+|--------------|-------------------------------------------------------------|
+| Role         | Senior C developer, 15+ years, systems/memory/security     |
+| Task         | Explicit: 5-area code review with line-level feedback       |
+| Context      | typedef provided, project constraints stated                |
+| Constraints  | malloc/free/exit only, no global variables                  |
+| Specificity  | Names exact flaws: NULL check, memory leak, traversal logic |
+| Output Format| Table + explanations + corrected code required              |
